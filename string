@@ -1,0 +1,111 @@
+#include<iostream>
+using namespace std;
+
+//Function for printing the array
+void printArr(char arr[], int n){
+    
+    for(int i = 0; i < n; i++){
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+//function to check count of Numbers in array
+int count_num(char arr[], int n){
+    int count = 0;
+    for(int i = 0; i < n; i++){
+        if(arr[i] >= '0' && arr[i] <= '9'){
+            count++;
+        }
+    }
+    return count;
+}
+
+//function for first element Index
+int index_of_num(char arr[], int n){
+    int index  = -1;
+    for(int i = 0; i < n; i++){
+        if(arr[i] >= '0' && arr[i] <= '9'){
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
+
+
+void sortArray(char arr[], int n){
+    
+    
+    int loop = count_num(arr, n); //If So123nu : total 3 numbers = 3 times loop run
+    int i = index_of_num(arr, n); //Index of first number
+    
+    int round = 0;
+    while(round < loop)
+    {
+        
+        int temp = arr[i]; // First number ko store kra liya temp me
+
+        //Index of 2nd or more number nikal rhe h + uski value save in temp
+        for(int j = i+1; j < n && round != 0; j++){
+            if(arr[j] >= '0' && arr[j] <= '9'){
+                i = j;
+                temp = arr[i];
+                break;
+            }
+        }
+        
+        //logic for: shift the alphabets to the right side of array
+        for(int j = i-1; j >= round; j--){
+            arr[j+1] = arr[j];
+        }
+
+        arr[round] = temp; // Put the number into left side of array >> 
+
+        //Print the steps
+        // cout << "steps >>" << endl;
+        // printArr(arr, n);
+
+        round++;
+
+    }
+
+    //Final array print
+    printArr(arr, n);
+
+
+
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    char arr[n];
+    for(int i = 0; i < n; i++){
+        cin >> arr[i];
+    }
+
+    cout << "Sorting starts now" << endl;
+
+
+    //array let krliya usme 1 1 krke name ko sort kra rahe hai
+    int k = 0;
+    char temp[100];
+    for (int i = 0; i < n; i++)
+    {
+        
+        temp[k] = arr[i];
+        if(arr[i] == ',')
+        {
+            sortArray(temp, k);
+            k = 0;
+            continue;
+        }
+        k++;
+    }
+    sortArray(temp, k);
+
+    // sortArray(arr, n);
+    cout << "sorting end!";
+}
